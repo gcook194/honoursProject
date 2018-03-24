@@ -1,0 +1,68 @@
+
+{# Progress bar for first page#}
+{%  if step == 1 %}
+<div class="col-md-4 circle-container">
+    <div class="circle circle-current">
+        1
+    </div>
+    <p>Create League</p>
+</div>
+<div class="col-md-4 circle-container">
+    <div class="circle">
+        2
+    </div>
+    <p>Set Rules</p>
+</div>
+<div class="col-md-4 circle-container">
+    <div class="circle">
+        3
+    </div>
+    <p>Add Teams</p>
+</div>
+{% endif %}
+
+{# Progress bar for second page #}
+{%  if step == 2 %}
+    <div class="col-md-4 circle-container">
+        <div class="circle circle-complete">
+            1
+        </div>
+        <p>Create League</p>
+    </div>
+    <div class="col-md-4 circle-container">
+        <div class="circle circle-current">
+            2
+        </div>
+        <p>Set Rules</p>
+    </div>
+    <div class="col-md-4 circle-container">
+        <div class="circle">
+            3
+        </div>
+        <p>Edit Teams</p>
+    </div>
+{% endif %}
+
+{# Progress bar for third page #}
+{%  if step == 3 %}
+    <div class="col-md-4 circle-container">
+        <div class="circle circle-complete">
+            1
+        </div>
+        <p>Create League</p>
+    </div>
+    <div class="col-md-4 circle-container">
+        <div class="circle circle-complete">
+            2
+        </div>
+        <p>Set Rules</p>
+    </div>
+    <div class="col-md-4 circle-container">
+        <div class="circle circle-current">
+            3
+        </div>
+        <p>Add Teams</p>
+    </div>
+{% endif %}
+
+

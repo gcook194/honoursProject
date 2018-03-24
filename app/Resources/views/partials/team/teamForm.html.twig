@@ -1,0 +1,28 @@
+<div class="col-md-6 align-form">
+    <h4>Form</h4>
+    {% for result in teamEntry.getForm() %}
+        {% if loop.index < 5 %}
+            {% set style = "" %}
+
+            {% if result == "W" %}
+                {% set style = "div-win" %}
+            {% endif %}
+
+            {% if result == "D" %}
+                {% set style = "div-draw" %}
+            {% endif %}
+
+            {% if result == "L" %}
+                {% set style = "div-loss" %}
+            {% endif %}
+
+            <div class="{{ style }} col-sm-1">
+                <small>{{ result }}</small>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    {% if teamEntry.getForm() is empty%}
+        No form to display
+    {% endif %}
+</div>

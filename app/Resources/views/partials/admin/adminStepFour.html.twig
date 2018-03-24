@@ -1,0 +1,117 @@
+<input type="hidden" id="leagueId" value="{{ league.getId() }}"/>
+
+<div class="row content-div">
+    <div class="col-md-12">
+        <a href="/">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </div>
+</div>
+
+
+<div class="row content-div">
+        <div class="col-md-6">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="col-md-6">
+            <div class="div-right-align top-padding-20">
+                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">League Details</button>
+            </div>
+        </div>
+    <div class="col-md-12">
+        <p>Welcome to the dashboard!  You can use this section to edit and view information about teams, leagues and fixtures.</p>
+        <hr />
+    </div>
+</div>
+
+<div class="row content-div">
+    <div class="col-md-4">
+        <h3>League Table</h3>
+        <div class="col-md-12">
+            {% include '::partials/table/leagueTableSmall.html.twig' %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>Fixtures & Results</h3>
+
+        <ul class="nav nav-tabs">
+            <li class="active active-tab"><a data-toggle="tab" href="#leagueFixtures">Fixtures</a></li>
+            <li class="active-tab"><a data-toggle="tab" href="#leagueResults">Results</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="leagueFixtures" class="tab-pane fade in active top-padding-20">
+                <p>Limited to 10 fixtures</p>
+                {% if upcomingMatches is not empty %}
+                    {% for fixture in upcomingMatches %}
+                        {% if loop.index <= 10 %}
+                            <div class="row">
+                                <div class="col-md-3 margin-bottom-10">
+                                    {{ fixture.getHomeTeam.getDisplayName() }}
+                                </div>
+                                <div class="col-md-3 div-centered margin-bottom-10">
+                                    <p>vs</p>
+                                </div>
+                                <div class="col-md-3 margin-bottom-10">
+                                    {{ fixture.getAwayTeam.getDisplayName() }}
+                                </div>
+                                <div class="col-md-3 margin-bottom-10 div-right-align">
+                                    <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "league", "referrerId": league.getId()}) }}">View</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="row">
+                        <p>Nothing to display</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div id="leagueResults" class="tab-pane fade top-padding-20">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% if results is not empty %}
+                            {% for fixture in results %}
+                                <div class="row">
+                                    <div class="col-md-3 margin-bottom-10">
+                                        {{ fixture.getHomeTeam.getDisplayName() }}
+                                    </div>
+                                    <div class="col-md-3 div-centered margin-bottom-10">
+                                        {{ fixture.getHomeGoals() }}
+                                        &nbsp;
+                                        -
+                                        &nbsp;
+                                        {{ fixture.getAwayGoals() }}
+                                    </div>
+                                    <div class="col-md-3 margin-bottom-10">
+                                        {{ fixture.getAwayTeam.getDisplayName() }}
+                                    </div>
+                                    <div class="col-md-3 margin-bottom-10 div-right-align">
+                                        <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "league", "referrerId": league.getId()}) }}">View</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="row">
+                                <p>Nothing to display</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>Statistics</h3>
+        <div class="col-md-12">
+            <h4>Goals Scored (team)</h4>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col-md-12">
+            <h4>Goals Scored (Player)</h4>
+            <canvas id="myChart2"></canvas>
+        </div>
+    </div>
+    <div class="modal1"><!-- Place at bottom of page --></div>
+</div>

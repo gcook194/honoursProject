@@ -1,0 +1,78 @@
+<table class="table table-condensed table-hover">
+    <thead>
+    <tr>
+        <th>
+            Pos
+        </th>
+        <th colspan="2">
+            Team
+        </th>
+        <th>
+            Pld
+        </th>
+        <th>
+            W
+        </th>
+        <th>
+            D
+        </th>
+        <th>
+            L
+        </th>
+        <th>
+            +
+        </th>
+        <th>
+            -
+        </th>
+        <th>
+            GD
+        </th>
+        <th>
+            Pts
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  for entry in table %}
+        <tr {% if teamPage is defined and team.getId() == entry.getTeam().getId() %} class="info" {% endif %}>
+            <td>
+                {{ loop.index }}
+            </td>
+            <td colspan="2">
+                {% if entry.getTeam().getBadgeImage() != "" %}
+                    <img src="{{ asset('uploads/badges/' ~ entry.getTeam().getBadgeImage()) }}" alt="club badge" width="30px" height="30px">
+                    &nbsp;
+                    <a href="{{ path('view_team', {'id': entry.getTeam().getId()}) }}">{{ entry.getTeam().getDisplayName() }}</a>
+                {% else %}
+                    <a href="{{ path('view_team', {'id': entry.getTeam().getId()}) }}">{{ entry.getTeam().getDisplayName() }}</a>
+                {% endif %}
+            </td>
+            <td>
+                {{ entry.getPlayed() }}
+            </td>
+            <td>
+                {{ entry.getWins() }}
+            </td>
+            <td>
+                {{ entry.getDraws() }}
+            </td>
+            <td>
+                {{ entry.getLosses() }}
+            </td>
+            <td>
+                {{ entry.getScored() }}
+            </td>
+            <td>
+                {{ entry.getConceded() }}
+            </td>
+            <td>
+                {{ entry.getGoalDifference() }}
+            </td>
+            <td>
+                {{ entry.getPoints() }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

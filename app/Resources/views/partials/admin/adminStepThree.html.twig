@@ -1,0 +1,24 @@
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+    {% include '::partials/registerLeagueProgress.html.twig' %}
+    <h3>Edit Teams</h3>
+    <p>
+        <strong>Great!  The only thing left to do now is customise your {{ league.getLeagueMeta().getNumberOfTeams() }} teams</strong>
+    </p>
+
+    {% for team in teams %}
+        <div class="col-md-9 margin-bottom-10">
+            <strong>{{ team.getDisplayName() }}</strong>
+        </div>
+        <div class="col-md-3 margin-bottom-10">
+
+            {# Link to the edit page for that team #}
+            <a href="{{ path('edit_team', {'id': team.getId()}) }}" class="btn btn-primary">Edit</a>
+        </div>
+    {% endfor %}
+</div>
+<div class="col-md-3">
+
+</div>

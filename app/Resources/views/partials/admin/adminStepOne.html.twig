@@ -1,0 +1,31 @@
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+
+    {% include '::partials/registerLeagueProgress.html.twig' %}
+    <h3>Create your league</h3>
+    <p>
+        You haven't created a league yet. The following wizard will walk you through the process.
+    </p>
+    <p>
+        <strong>First, give your league a name.</strong>
+    </p>
+
+    {{ form_start(leagueForm) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_errors(leagueForm.name) }}
+                {{ form_widget(leagueForm.name) }}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_widget(leagueForm.save) }}
+    </div>
+    {{ form_end(leagueForm) }}
+</div>
+<div class="col-md-3">
+
+</div>

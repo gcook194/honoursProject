@@ -1,0 +1,102 @@
+<div class="col-md-2">
+
+</div>
+<div class="col-md-8">
+    <div class="row content-div">
+        {% if errorMessage is defined %}
+            <div class="col-md-12">
+                <div class="col-md-12 alert alert-danger">
+                    {{ errorMessage }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="col-md-12">
+            <h1>Select a League</h1>
+            <p>
+                Use the table below to select a league to join.  To ensure leagues are in a state to be joined, and to facilitate private/public leagues in future, you will have to enter an access code for the league you enter.
+                At present these are all publicly available.
+            </p>
+        </div>
+    </div>
+
+    <div class="row content-div">
+        <div class="col-md-12">
+            <table class="hover" style="width:100%" id="myTable">
+                <thead>
+                    <tr>
+                        <th>
+                            League
+                        </th>
+                        <th>
+                            Access Code
+                        </th>
+                        <th>
+                            Administrator
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                {% for league in leagues %}
+                    <tr>
+                        <td>
+                            {{ league.getName() }}
+                        </td>
+                        <td>
+                            {{ league.getLeagueMeta().getAccessCode() }}
+                        </td>
+                        <td>
+                            {{ league.getAdministrator().getFirstName() }}&nbsp;{{ league.getAdministrator().getLastName() }}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#leagueModal{{ loop.index }}">Select League</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% for league in leagues%}
+        <div id="leagueModal{{ loop.index }}" class="modal fade" role="dialog">
+            <div class= "modal-dialog modal-sm">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Enter League</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Enter the access code for league {{ league.getName() }}</p>
+                        <form method="post" action="{{ path('select_league') }}">
+                            <div class="form-group">
+                                <input type="text" name="accessCode" id="accessCode" class="form-control" placeholder="Access Code">
+                                <input type="hidden" id="leagueId" name="leagueId" value="{{ league.getId() }}">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary" value="Confirm">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+    {#<div class="col-md-6">
+    <form method="post" action="{{ path('select_league') }}">
+        <div class="form-group">
+            <input type="text" name="accessCode" id="accessCode" class="form-control" placeholder="Access Code">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Confirm">
+        </div>
+    </form>
+</div>#}
+</div>
+<div class="col-md-2">
+
+</div>

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+
+        {# Breadcrumbs #}
+        <div class="row content-div">
+            <div class="col-md-12">
+                <a href="/">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+                &nbsp;
+                >
+                &nbsp;
+                {% if referrer.getLeagueMeta() is defined %}
+                    {% if referrer.getDisplayName() is defined %}
+                        <a href="/">{{ referrer.getName() }}</a>
+                    {% else %}
+                        <a href="/">{{ referrer.getName() }}</a>
+                    {% endif %}
+                {% else %}
+                    <a href="/team/{{ referrer.getId() }}">{{ referrer.getName() }}</a>
+                {% endif %}
+                &nbsp;
+                >
+                &nbsp;
+                <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "team", "referrerId": fixture.getHomeTeam().getId()}) }}">{{ fixture.getHomeTeam().getDisplayName() }} vs {{ fixture.getAwayTeam().getDisplayName() }}</a>
+                &nbsp;
+                >
+                &nbsp;
+                <span class="rcornersBreadCrumb">Events</span>
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                {% if fixture.getPlayed == 0 %}
+                    <h1>{{ fixture.getHomeTeam().getName() }} vs {{ fixture.getAwayTeam().getName() }}</h1>
+                    (Round {{ fixture.getRound() }} of matches)
+                {% else %}
+                    <h1>{{ fixture.getHomeTeam().getName() }}&nbsp;{{ fixture.getHomeGoals() }}&nbsp;-&nbsp;{{ fixture.getAwayGoals() }}&nbsp;{{ fixture.getAwayTeam().getName() }}</h1>
+                    (Round {{ fixture.getRound() }} of matches)
+                {% endif %}
+
+                <hr />
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                <h3>Events</h3>
+                <p>
+                    Use the form below to add individual match events such as goals, assists, yellow & red cards.
+                </p>
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_row(form.event_type) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.player) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.time) }}
+                    {{ form_errors(form.time) }}
+                    {{ form_widget(form.timeDisplay) }}
+                    {{ form_widget(form.time) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

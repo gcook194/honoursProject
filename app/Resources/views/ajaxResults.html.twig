@@ -1,0 +1,22 @@
+<div class="container" id="ajaxResults">
+
+</div>
+
+<script>
+    $(document).on('ready', function(){
+        that = $(this);
+        $.ajax({
+            url:'{{ (path('topScoringTeam')) }}',
+            type: "POST",
+            dataType: "json",
+            async: true,
+            success: function (data)
+            {
+                console.log(data)
+                //$('#ajax-results').html(data.output);
+            }
+        });
+        return false;
+
+    });
+</script>

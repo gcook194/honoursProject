@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row content-div">
+        <div class="col-md-12">
+            <a href="/">
+                <span class="glyphicon glyphicon-home"></span>
+            </a>
+            &nbsp;
+            >
+            &nbsp;
+            <a href="/team/{{ team.getId() }}">{{ team.getName }}</a>
+            &nbsp;
+            >
+            &nbsp;
+            <span class="rcornersBreadCrumb">Add Player</span>
+        </div>
+    </div>
+    <div class="row content-div">
+        <div class="col-md-12">
+            <h1>
+                Add Player
+            </h1>
+            <p>
+                Use this form to add a player to this team
+            </p>
+        </div>
+    </div>
+    <div class="row content-div">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            {{ form_start(playerForm) }}
+            {{ form_end(playerForm) }}
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        {# Breadcrumbs #}
+        <div class="row content-div">
+            <div class="col-md-12">
+                <a href="/">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+                &nbsp;
+                >
+                &nbsp;
+                {% if referrer.getLeagueMeta() is defined %}
+                    {% if referrer.getDisplayName() is defined %}
+                        <a href="/">{{ referrer.getName() }}</a>
+                    {% else %}
+                        <a href="/">{{ referrer.getName() }}</a>
+                    {% endif %}
+                {% else %}
+                    <a href="/team/{{ referrer.getId() }}">{{ referrer.getName() }}</a>
+                {% endif %}
+                &nbsp;
+                >
+                &nbsp;
+                <span class="rcornersBreadCrumb">{{ fixture.getHomeTeam().getDisplayName() }} vs {{ fixture.getAwayTeam().getDisplayName() }}</span>
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                <h1>{{ fixture.getHomeTeam().getName() }} vs {{ fixture.getAwayTeam().getName() }}</h1>
+                (Round {{ fixture.getRound() }} of matches)
+                <hr />
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-10">
+                <h3>General</h3>
+                {% if fixture.getPlayed() == 0  %}
+                    {% if fixture.getScheduledDate() is null %}
+                        <p><strong>This match is yet to be played and no scheduled date has been set.</strong></p>
+                    {% else %}
+                        <p><strong>This match is scheduled to be played on {{ fixture.getScheduledDate()|date("d/m/Y") }}</strong></p>
+                    {% endif %}
+                {% else %}
+                    <p>This match was played on {{ fixture.getPlayedDate()|date("d/m/Y") }}</p>
+                {% endif %}
+
+                <div class="col-md-6 div-right-align">
+                    {% if fixture.getHomeTeam().getBadgeImage() != "" %}
+                        <img src="{{ asset('uploads/badges/' ~ fixture.getHomeTeam().getBadgeImage()) }}" width="50" height="50">
+                        <br />
+                    {% endif %}
+                    <strong>{{ fixture.getHomeTeam().getDisplayName() }}</strong>
+
+                    {% if fixture.getPlayed == 1 %}
+                        &nbsp;
+                        <strong>{{ fixture.getHomeGoals }}</strong>
+                    {% endif %}
+                    <hr />
+                </div>
+                <div class="col-md-6">
+                    {% if fixture.getAwayTeam().getBadgeImage() != "" %}
+                        <img src="{{ asset('uploads/badges/' ~ fixture.getAwayTeam().getBadgeImage()) }}" width="50" height="50">
+                        <br />
+                    {% endif %}
+
+                    {% if fixture.getPlayed == 1 %}
+                        <strong>{{ fixture.getAwayGoals }}</strong>
+                        &nbsp;
+                    {% endif %}
+                    <strong>{{ fixture.getAwayTeam().getDisplayName() }}</strong>
+                    <hr />
+                </div>
+                <div class="col-md-6 div-right-align">
+                    {% for event in fixture.getEvents() %}
+                        {% if event.getPlayer().getTeam() == fixture.getHomeTeam %}
+                            <div class="col-md-12 top-padding-5">
+                                {% if event.getEventType() == 'goal' %}
+                                    <img src="{{ asset('img/icons/goal_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'assist'%}
+                                    <img src="{{ asset('img/icons/assist_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'yellow'%}
+                                    <img src="{{ asset('img/icons/yellow_card_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'red'%}
+                                    <img src="{{ asset('img/icons/red_card_icon.png') }}" width="20" height="20">
+                                {% endif %}
+                                &nbsp;
+                                {{ event.getPlayer().getFirstName()|first|upper }}.&nbsp;{{ event.getPlayer().getLastName() }}
+                                &nbsp;
+                                {{ event.getTime() }}"
+                            </div>
+                        {% else %}
+                            <div class="col-md-12 top-padding-5">
+                                <br />
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-6">
+                    {% for event in fixture.getEvents() %}
+                        {% if event.getPlayer().getTeam() == fixture.getAwayTeam %}
+                            <div class="col-md-12 top-padding-5">
+                                {{ event.getTime() }}"
+                                &nbsp;
+                                {{ event.getPlayer().getFirstName()|first|upper }}.&nbsp;{{ event.getPlayer().getLastName() }}
+                                &nbsp;
+                                {% if event.getEventType() == 'goal' %}
+                                    <img src="{{ asset('img/icons/goal_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'assist'%}
+                                    <img src="{{ asset('img/icons/assist_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'yellow'%}
+                                    <img src="{{ asset('img/icons/yellow_card_icon.png') }}" width="20" height="20">
+                                {% elseif event.getEventType() == 'red'%}
+                                    <img src="{{ asset('img/icons/red_card_icon.png') }}" width="20" height="20">
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="col-md-12 top-padding-5">
+                                <br />
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-2 top-padding-20">
+
+                {% if app.user.userType == "leagueAdmin" %}
+                    <div class="col-md-12">
+                        <a href="{{ path('edit_fixture', {'id': fixture.getId()}) }}" class="btn btn-primary">Edit Match</a>
+                    </div>
+
+                    <div class="col-md-12 top-padding-5">
+                        <a href="{{ path('fixture_events', {'id': fixture.getId(), "referrer": "team", "referrerId": fixture.getHomeTeam().getId()}) }}" class="btn btn-primary {{ (fixture.getPlayed() ==0) ? 'disabled' : '' }}">Edit Events</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row content-div">
+            <div class="col-md-12">
+                <h3>Last 5 matches</h3>
+                <div class="col-md-5 div-right-align">
+                    {% for result in homeResults %}
+                        <div class="col-md-12 top-padding-10">
+                            <strong>{{ result.getPlayedDate()|date("d/m/Y") }}</strong> (Round {{ result.getRound() }} of matches)
+                            <br />
+                            {{ result.getHomeTeam().getDisplayName() }}
+                            &nbsp;
+                            {{ result.getHomeGoals }}
+                            &nbsp;-&nbsp;
+                            {{ result.getAwayGoals }}
+                            &nbsp;
+                            {{ result.getAwayTeam().getDisplayName() }}
+                            &nbsp;
+                            &nbsp;
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-5">
+                    {% for result in awayResults %}
+                        <div class="col-md-12 top-padding-10">
+                            <strong>{{ result.getPlayedDate()|date("d/m/Y") }}</strong> (Round {{ result.getRound() }} of matches)
+                            <br />
+                            {{ result.getHomeTeam().getDisplayName() }}
+                            &nbsp;
+                            {{ result.getHomeGoals }}
+                            &nbsp;-&nbsp;
+                            {{ result.getAwayGoals }}
+                            &nbsp;
+                            {{ result.getAwayTeam().getDisplayName() }}
+                            &nbsp;
+                            &nbsp;
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row content-div">
+            <div class="col-md-12">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

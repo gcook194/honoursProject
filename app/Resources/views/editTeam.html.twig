@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row content-div">
+            <div class="col-md-12">
+                <a href="/">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+                &nbsp;
+                >
+                &nbsp;
+                <a href="/team/{{ team.getId() }}">{{ team.getDisplayName() }}</a>
+                &nbsp;
+                >
+                &nbsp;
+                <span class="rcornersBreadCrumb">Edit Team</span>
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                <h1>Edit Team</h1>
+                <p>Use the form below to edit details about a specific team within the league.  </p>
+
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        {{ form_start(teamForm) }}
+                        {{ form_end(teamForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

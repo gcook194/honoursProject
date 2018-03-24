@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        {# if the user is an admin #}
+        {% if app.user.userType == "leagueAdmin" %}
+
+            {# if they have not created a league, ask them to create one #}
+            {%  if step == 1 %}
+                {% include '::partials/admin/adminStepOne.html.twig' %}
+            {% endif %}
+
+            {# If they need to add some rules to their league, show this form#}
+            {%  if step == 2 %}
+                {% include '::partials/admin/adminStepTwo.html.twig' %}
+            {% endif %}
+
+            {# If they need to edit the teams created, show this page#}
+            {% if step == 3 %}
+                {% include '::partials/admin/adminStepThree.html.twig' %}
+            {% endif %}
+
+            {# Main Dashboard #}
+            {% if step == 4 %}
+                {% include '::partials/admin/adminStepFour.html.twig' %}
+
+                {# Modal window for team settings #}
+                {% include '::partials/modals/leagueSettingsModal.html.twig' %}
+
+                {# Modal window for viewing fixtures #}
+                {% include '::partials/modals/leagueFixturesModal.html.twig' %}
+            {% endif %}
+        {% else %}
+
+            {%  if step == 1 %}
+                {% include '::partials/user/stepOne.html.twig' %}
+            {% else %}
+                {% include '::partials/admin/adminStepFour.html.twig' %}
+
+                {# Modal window for team settings #}
+                {% include '::partials/modals/leagueSettingsModal.html.twig' %}
+
+                {# Modal window for viewing fixtures #}
+                {% include '::partials/modals/leagueFixturesModal.html.twig' %}
+            {% endif %}
+
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

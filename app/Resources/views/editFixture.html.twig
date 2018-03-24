@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        {# Breadcrumbs #}
+        <div class="row content-div">
+            <div class="col-md-12">
+                <a href="/">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+                &nbsp;
+                >
+                &nbsp;
+
+                <a href="/">{{ fixture.getLeague.getName() }}</a>
+
+                &nbsp;
+                >
+                &nbsp;
+                <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "team", "referrerId": fixture.getHomeTeam().getId()}) }}">{{ fixture.getHomeTeam().getDisplayName() }} vs {{ fixture.getAwayTeam().getDisplayName() }}</a>
+                &nbsp;
+                >
+                &nbsp;
+                <span class="rcornersBreadCrumb">Edit Match</span>
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                <h1>{{ fixture.getHomeTeam().getName() }} vs {{ fixture.getAwayTeam().getName() }}</h1>
+                (Round {{ fixture.getRound() }} of matches)
+                <hr />
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    {{ form_start(fixtureForm) }}
+                    {{ form_end(fixtureForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

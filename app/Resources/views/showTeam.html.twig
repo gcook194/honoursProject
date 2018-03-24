@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <input type="hidden" id="teamId" value="{{ team.getId() }}"/>
+
+        {# Breadcrumbs #}
+        <div class="row content-div">
+            <div class="col-md-12">
+                <a href="/">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+                &nbsp;
+                >
+                &nbsp;
+                <span class="rcornersBreadCrumb">{{ team.getName }}</span>
+            </div>
+        </div>
+
+        <div class="row content-div">
+        {# Badge and team form #}
+        {% if team.getBadgeImage() is defined and team.getBadgeImage() != ""%}
+            <div class="col-md-12">
+                <div class="rcorners2">
+                    <img src="{{ asset('uploads/badges/' ~ team.getBadgeImage()) }}" width="100" height="100">
+                </div>
+            </div>
+        {% endif %}
+
+            <div class="col-md-6">
+                <h2>{{ team.getName() }}<br /><small>'{{ team.getNickname() }}'</small></h2>
+
+                {# Social networks and buttons #}
+                <div class="col-md-12 top-padding-10">
+                    <img src="{{ asset('img/twitter.png') }}" alt="twitter" width="30" height="30">&nbsp;<a href="{{ team.getTwitterUrl() }}" target="_blank">Twitter</a>
+                </div>
+                <div class="col-md-12 top-padding-10">
+                    <img src="{{ asset('img/internet.png') }}" alt="twitter" width="30" height="30">&nbsp;<a href="{{ team.getWebsiteUrl() }}" target="_blank">Website</a>
+                </div>
+
+                {% if app.user.userType == "leagueAdmin" %}
+                    <div class="col-md-12 top-padding-20">
+                        <a href="{{ path('edit_team', {'id': team.getId()}) }}" class="btn-sm btn-primary">Edit Team</a>
+                        <a href="{{ path('view_add_player', {'id': team.getId()}) }}" class="btn-sm btn-primary">Add Player</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% include '::partials/team/teamForm.html.twig' %}
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-6">
+                <h4>Graphs and Statistics</h4>
+
+                <div class="col-md-6">
+                    <canvas id="teamResultsPie" style="width: 500px; height: 500px;"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+               <h4>{{ league.getName() }} Table&nbsp;<a data-toggle="modal" data-target="#leagueTableHelp"><img src="{{ asset('img/help_icon.png') }}" alt="help" width="20" height="20"></a></h4>
+
+                {# Set this to highlight the chosen team in the league table #}
+                {% set teamPage = true %}
+
+                {# Render the league table to the page #}
+                {% include '::partials/table/leagueTableFull.html.twig' %}
+
+                {# Include the league help modal #}
+                {% include '::partials/modals/help/leagueTableHelp.html.twig' %}
+            </div>
+        </div>
+
+        <div class="row content-div">
+            <div class="col-md-6">
+                <h4>Players</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Position
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Goals
+                        </th>
+                        <th>
+                            Assists
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                     {% for player in team.getPlayers() %}
+                        <tr>
+                            <td>
+                                {{ player.getNumber() }}
+                            </td>
+                            <td>
+                                {% if player.getPosition == 'gk' %}
+                                    GK
+                                {% elseif player.getPosition == 'def' %}
+                                    Def
+                                {% elseif player.getPosition() == 'mid'  %}
+                                    Mid
+                                {% elseif player.getPosition() == 'att' %}
+                                    Att
+                                {% elseif player.getPosition() == 'all' %}
+                                    All
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ player.getFirstName() }}&nbsp;{{ player.getLastName() }}
+                            </td>
+                            <td>
+                                {{ player.getGoalsScored() }}
+                            </td>
+                            <td>
+                                {{ player.getAssists() }}
+                            </td>
+                        </tr>
+                     {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <h4>Upcoming Matches</h4>
+
+                {%  for fixture in teamFixtures %}
+                    <div class="col-md-8 top-padding-10">
+                        {% if fixture.getHomeTeam().getBadgeImage() != "" %}
+                            <img src="{{ asset('uploads/badges/' ~ fixture.getHomeTeam.getBadgeImage()) }}" width="30" height="30">
+                        {% else %}
+                            {{ fixture.getHomeTeam().getDisplayName() }}
+                        {% endif %}
+                        &nbsp;
+                        &nbsp;
+                        <span class="rcorners-score">vs</span>
+                        &nbsp;
+                        &nbsp;
+                        {% if fixture.getAwayTeam().getBadgeImage() != "" %}
+                            <img src="{{ asset('uploads/badges/' ~ fixture.getAwayTeam.getBadgeImage()) }}" width="30" height="30">
+                        {% else %}
+                            {{ fixture.getAwayTeam().getDisplayName() }}
+                        {% endif %}
+                    </div>
+
+                    {% if app.user.userType == "leagueAdmin"%}
+                        <div class="col-md-4 top-padding-10">
+                            <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "team", "referrerId": team.getId()}) }}" class="btn-sm btn-primary">Edit</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <h4>Results</h4>
+
+                {%  for fixture in teamResults %}
+                    <div class="col-md-9 top-padding-10">
+                        {% if fixture.getHomeTeam().getBadgeImage() != "" %}
+                        <img src="{{ asset('uploads/badges/' ~ fixture.getHomeTeam.getBadgeImage()) }}" width="30" height="30">
+                        {% else %}
+                            {{ fixture.getHomeTeam().getDisplayName() }}
+                        {% endif %}
+                        &nbsp;
+                        &nbsp;
+                        <span class="rcorners-score">{{ fixture.getHomeGoals() }}&nbsp;-&nbsp;{{ fixture.getAwayGoals() }}</span>
+                        &nbsp;
+                        &nbsp;
+                        <img src="{{ asset('uploads/badges/' ~ fixture.getAwayTeam.getBadgeImage()) }}" width="30" height="30">
+                    </div>
+
+                    {% if app.user.userType == "leagueAdmin"%}
+                        <div class="col-md-3 top-padding-10">
+                            <a href="{{ path('show_fixture', {'id': fixture.getId(), "referrer": "team", "referrerId": team.getId()}) }}" class="btn-sm btn-primary">Edit</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal1"><!-- Place at bottom of page --></div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

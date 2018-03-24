@@ -1,0 +1,59 @@
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ league.getName() }}</h4>
+            </div>
+            <div class="modal-body">
+                <h3>General</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Access Code:<p>
+                    </div>
+                    <div class="col-md-2">
+                        {{ league.getLeagueMeta().getAccessCode() }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Number of Teams in the League:</p>
+                    </div>
+                    <div class="col-md-2">
+                        {{ league.getLeagueMeta().getNumberOfTeams() }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Rounds of Fixtures to be Played:</p>
+                    </div>
+                    <div class="col-md-2">
+                        {{ league.getLeagueMeta().getRoundsOfFixtures() }}
+                    </div>
+                </div>
+                <h3>Match Settings</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Points Per Win:</p>
+                    </div>
+                    <div class="col-md-2">
+                        {{ league.getLeagueMeta().getWinPoints() }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Points Per Draw:</p>
+                    </div>
+                    <div class="col-md-2">
+                        {{ league.getLeagueMeta().getDrawPoints() }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

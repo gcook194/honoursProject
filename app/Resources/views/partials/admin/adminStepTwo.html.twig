@@ -1,0 +1,102 @@
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+    {% include '::partials/registerLeagueProgress.html.twig' %}
+    <h3>Add Rules</h3>
+    <p>
+        <strong>Next, add some rules so we can build you a personalised league table.</strong>
+    </p>
+    <p>
+        The only information we require from you is the number of teams you intend to add, and the number of times the teams will play against one another before the season ends.
+    </p>
+    <p>
+        The default application rules are as follows:
+    </p>
+    <ul>
+        <li>
+            3 points are assigned for a win
+        </li>
+        <li>
+            1 point is assigned for a draw
+        </li>
+        <li>
+            No points are assigned for a loss
+        </li>
+        <li>
+            League table sort order:
+            <ol>
+                <li>
+                    Points
+                </li>
+                <li>
+                    Goal Difference
+                </li>
+                <li>
+                    Goals Scored
+                </li>
+                <li>
+                    Alphabetical Order (Team name)
+                </li>
+            </ol>
+        </li>
+    </ul>
+    <hr />
+    <h3>Rules</h3>
+    <form class="form-inline" method="post" action="{{ path('addLeagueRules') }}">
+        {#
+        <p>
+            <input type="checkbox" name="defaultRules" id="defaultRules" value="1">
+            check this box if you'd like the default rules to be applied.
+        </p>
+        #}
+        <div class="form-row">
+            <div class="form-group">
+                <input type="number" name="numberOfTeams1" id="numberOfTeams1" class="form-control" placeholder="Number of teams" required>
+            </div>
+            <div class="form-group">
+                <input type="number" name="roundsOfFixtures" id="roundsOfFixtures" class="form-control" placeholder="Rounds of fixtures" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" id="saveDefaultSettings" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+    {#
+    <hr />
+    <h3>Custom Rules</h3>
+    {{ form_start(metaForm) }}
+    <div class="form-group">
+        {{ form_label(metaForm.win_points) }}
+        {{ form_errors(metaForm.win_points) }}
+        {{ form_widget(metaForm.win_points) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(metaForm.draw_points) }}
+        {{ form_errors(metaForm.draw_points) }}
+        {{ form_widget(metaForm.draw_points) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(metaForm.number_of_teams) }}
+        {{ form_errors(metaForm.number_of_teams) }}
+        {{ form_widget(metaForm.number_of_teams) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(metaForm.sort_col_one) }}
+        {{ form_errors(metaForm.sort_col_one) }}
+        {{ form_widget(metaForm.sort_col_one) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(metaForm.sort_col_two) }}
+        {{ form_errors(metaForm.sort_col_two) }}
+        {{ form_widget(metaForm.sort_col_two) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(metaForm.save) }}
+    </div>
+    {{ form_end(metaForm) }}
+    #}
+</div>
+<div class="col-md-3">
+
+</div>

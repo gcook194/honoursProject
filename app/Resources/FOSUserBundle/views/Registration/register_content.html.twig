@@ -1,0 +1,68 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="col-md-6">
+    <h1>Registration</h1>
+    <p>Use the form to register into the system.  At present there are two available user types:<br /><br />
+
+        <strong>League administrator - </strong> League administrators will have full control over things such as creating leagues, how many points are awarded for a win/draw/loss, how many teams are in the league, submitting finalised match reports, assigning secondary league administrators, etc
+        <br />
+        <br />
+        <strong>League User - </strong> Can register into the system and keep track of the statistics of a specific league or teams within a league.  Will use a system generated access code which has been distributed by the league administrator to gain access if the league itself is not publicly available.
+
+    </p>
+</div>
+<div class="col-md-6 register">
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.first_name) }}
+            {{ form_errors(form.first_name) }}
+            {{ form_widget(form.first_name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.last_name) }}
+            {{ form_errors(form.last_name) }}
+            {{ form_widget(form.last_name) }}   
+        </div>
+        <div class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_errors(form.username) }}
+            {{ form_widget(form.username) }}   
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_errors(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first) }} 
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_errors(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second) }}   
+        </div>
+        <div class="form-group">
+            {{ form_label(form.user_type) }}
+            {{ form_errors(form.user_type) }}
+            {{ form_widget(form.user_type) }}   
+        </div>
+        <div class="form-group">
+            <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary"/>
+        </div>
+    {{ form_end(form) }}
+</div>
+
+
+{% block stylesheets %}
+    <style>
+        body {
+            padding-bottom: 40px;
+        }
+        
+        .register {
+            position: relative;
+        }
+    </style>
+{% endblock %}
